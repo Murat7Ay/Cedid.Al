@@ -1,4 +1,5 @@
-﻿using Cedid.AkilliLojistik.Parameters;
+﻿using Cedid.AkilliLojistik.Lookups;
+using Cedid.AkilliLojistik.Parameters;
 using Cedid.AkilliLojistik.Vehicles;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -25,14 +26,31 @@ namespace Cedid.AkilliLojistik.Web
             return list;
         }
 
-        public static List<SelectListItem> GetVehicleSelectListItem(List<VehicleDto> vehicleDtos, bool addEmptyRecord = true)
+        public static List<SelectListItem> GetVehicleSelectListItem(List<VehicleLookup> vehicleLookups, bool addEmptyRecord = true)
         {
-            if (vehicleDtos == null || vehicleDtos.Count == 0)
+            if (vehicleLookups == null || vehicleLookups.Count == 0)
             {
                 return new List<SelectListItem>();
             }
 
-            List<SelectListItem> list = vehicleDtos.Select(s => new SelectListItem(s.PlateNo, s.Id.ToString())).ToList();
+            List<SelectListItem> list = vehicleLookups.Select(s => new SelectListItem(s.PlateNo, s.Id.ToString())).ToList();
+
+            if (addEmptyRecord)
+            {
+                list.Insert(0, new SelectListItem("", ""));
+            }
+
+            return list;
+        }
+
+        public static List<SelectListItem> GetUserSelectListItem(List<UserLookup> userLookups, bool addEmptyRecord = true)
+        {
+            if (userLookups == null || userLookups.Count == 0)
+            {
+                return new List<SelectListItem>();
+            }
+
+            List<SelectListItem> list = userLookups.Select(s => new SelectListItem($"{s.Name} {s.Surname}", s.Id.ToString())).ToList();
 
             if (addEmptyRecord)
             {

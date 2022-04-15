@@ -39,9 +39,9 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
             var firmCodeParameterDtos = await _parameterAppService.GetParameterItemsByCode(ParameterConsts.FirmCode);
             FirmCodes = Utils.GetSelectListItems(firmCodeParameterDtos, false);
 
-            var vehicleDtos = await _vehicleAppService.GetAll();
+            var vehicleLookups = await _vehicleAppService.GetVehicleLookups();
 
-            Vehicles = Utils.GetVehicleSelectListItem(vehicleDtos, false);
+            Vehicles = Utils.GetVehicleSelectListItem(vehicleLookups, false);
 
         }
 

@@ -8,18 +8,22 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using System.Linq.Dynamic.Core;
 using Volo.Abp.Domain.Repositories;
+using Cedid.AkilliLojistik.Lookups;
+using Volo.Abp.Identity;
 
 namespace Cedid.AkilliLojistik.Services
 {
     public class ServiceAppService : CrudAppService<Service, ServiceDto, Guid, GetServiceFilterListDto,
                         CreateUpdateServiceDto, CreateUpdateServiceDto>, IServiceAppService
     {
-        public ServiceAppService(IRepository<Service, Guid> repository, IRepository<Vehicle, Guid> vehicleRepository) : base(repository)
+        public ServiceAppService(IRepository<Service, Guid> repository, IRepository<Vehicle, Guid> vehicleRepository, IRepository<IdentityUser,Guid> userRepository) : base(repository)
         {
             VehicleRepository = vehicleRepository;
+            UserRepository = userRepository;
         }
 
         public IRepository<Vehicle, Guid> VehicleRepository { get; }
+        public IRepository<IdentityUser, Guid> UserRepository { get; }
 
         public async override Task<PagedResultDto<ServiceDto>> GetListAsync(GetServiceFilterListDto input)
         {
@@ -55,6 +59,12 @@ namespace Cedid.AkilliLojistik.Services
                totalCount,
                result
            );
+        }
+
+        public async Task<List<UserLookup>> GetUserLookups()
+        {
+            var result = await UserRepository.GetListAsync();
+            return result.Select(x => new UserLookup { Id = x.Id, Name = x.Name, Surname = x.Surname }).ToList();
         }
     }
 }

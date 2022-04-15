@@ -23,8 +23,8 @@ public class AkilliLojistikWebAutoMapperProfile : Profile
 
         //Services
         CreateMap<ServiceDto, CreateUpdateServiceDto>();
-        //CreateMap<VehicleDto, Pages.Vehicles.EditModalModel.EditVehicleViewModel>();
-        //CreateMap<Pages.Vehicles.EditModalModel.EditVehicleViewModel, CreateUpdateVehicleDto>();
+        CreateMap<ServiceDto, Pages.Services.EditModel.EditServiceViewModel>();
+        CreateMap<Pages.Services.EditModel.EditServiceViewModel, CreateUpdateServiceDto>();
         CreateMap<Pages.Services.CreateModalModel.CreateServiceViewModel, CreateUpdateServiceDto>();
     }
 }

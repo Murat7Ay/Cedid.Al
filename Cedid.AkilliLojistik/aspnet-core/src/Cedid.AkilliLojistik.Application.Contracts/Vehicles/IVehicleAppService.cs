@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cedid.AkilliLojistik.Lookups;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,6 @@ namespace Cedid.AkilliLojistik.Vehicles
             GetVehicleFilterListDto,
             CreateUpdateVehicleDto>
     {
-        Task<List<VehicleDto>> GetAll();
+        Task<List<VehicleLookup>> GetVehicleLookups();
     }
 }

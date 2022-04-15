@@ -8,6 +8,7 @@ using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Repositories;
 using System.Linq.Dynamic.Core;
 using Cedid.AkilliLojistik.Parameters;
+using Cedid.AkilliLojistik.Lookups;
 
 namespace Cedid.AkilliLojistik.Vehicles
 {
@@ -21,10 +22,10 @@ namespace Cedid.AkilliLojistik.Vehicles
             this.parameterRepository = parameterRepository;
         }
 
-        public async Task<List<VehicleDto>> GetAll()
+        public async Task<List<VehicleLookup>> GetVehicleLookups()
         {
             List<Vehicle> vehicles = await Repository.GetListAsync();
-            return ObjectMapper.Map<List<Vehicle>,List<VehicleDto>>(vehicles);
+            return vehicles.Select(s => new VehicleLookup { Id = s.Id, PlateNo = s.PlateNo }).ToList();
         }
 
         public async override Task<PagedResultDto<VehicleDto>> GetListAsync(GetVehicleFilterListDto input)

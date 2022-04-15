@@ -6,7 +6,7 @@ namespace Cedid.AkilliLojistik.Services
 {
     public enum ServiceStatuType
     {
-        Entry,
-        Finished
+        Entry = 1,
+        Finished = 2
     }
 }

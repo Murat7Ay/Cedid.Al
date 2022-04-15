@@ -3,16 +3,235 @@
 @using Cedid.AkilliLojistik.Web.Pages.Services
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@using Cedid.AkilliLojistik.Permissions
+@using Microsoft.AspNetCore.Authorization
+@inject IStringLocalizer<AkilliLojistikResource> L
+@inject IAuthorizationService AuthorizationService
 @model EditModel
 @inject IStringLocalizer<AkilliLojistikResource> L
-@{
-    Layout = null;
+@section scripts
+{
+    <abp-script src="/Pages/Services/Edit.js" />
 }
 
-
-
-<abp-dynamic-form abp-model="Service" asp-page="/Services/Edit">
-
-    <abp-form-content />
-
-</abp-dynamic-form>
+<abp-row>
+    <abp-tabs>
+        <abp-tab title="@L["Detail"].Value">
+            <abp-card>
+                <abp-card-header>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-card-title></abp-card-title>
+                        </abp-column>
+                        <abp-column size-md="_6" class="text-right">
+                            @if (await AuthorizationService
+                            .IsGrantedAsync(AkilliLojistikPermissions.Services.Default))
+                            {
+                                <abp-button id="ServicesButton"
+                                        text="@L["ServiceList"].Value"
+                                        style="float:right"
+                                        button-type="Primary" />
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-card-header>
+                <abp-card-body>
+                    <form class="row gy-2 gx-3 align-items-center mt-2">
+                        <div class="row">
+                            <div class="col-8">
+                                <abp-select asp-for="Service.VehicleId" />
+                                <abp-select asp-for="Service.FirmCodeId" />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <abp-select asp-for="Service.ProcessDetailId" />
+                                        <abp-input asp-for="Service.ArrivalDate" />
+                                        <abp-input asp-for="Service.Contact" />
+                                    </div>
+                                    <div class="col-6">
+                                        <abp-input asp-for="Service.WorkOrderId" />
+                                        <abp-select asp-for="Service.OperationId" />
+                                        <abp-input asp-for="Service.KilometersDriven" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <abp-input asp-for="Service.ReportedFault" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <abp-input asp-for="Service.RepairDate" />
+                                        <abp-button id="ShowPictures" button-type="Default" text="@L["ServicePictures"].Value"></abp-button>
+                                    </div>
+                                    <div class="col-6">
+                                        <abp-input asp-for="Service.RepairStartDate" />
+                                        <abp-input asp-for="Service.RepairEndDate" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <abp-select asp-for="Service.TechnicianOneId" />
+                                        <abp-select asp-for="Service.TechnicianThreeId" />
+                                    </div>
+                                    <div class="col-6">
+                                        <abp-select asp-for="Service.TechnicianTwoId" />
+                                        <abp-select asp-for="Service.TechnicianFourId" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <abp-input asp-for="Service.ServiceResult" />
+                                </div>
+                                <div class="row">
+                                    <abp-input asp-for="Service.Detection" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-10">
+                                        <abp-input asp-for="Service.ExpenseDescription" />
+                                    </div>
+                                    <div class="col-2" style="display: flex; align-items: center; justify-content: center;">
+                                        <abp-button id="ShowExpenses" button-type="Default" text="@L["Expenses"].Value"></abp-button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <abp-input asp-for="Service.Description" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <abp-input asp-for="Service.InvoiceDate" />
+                                    </div>
+                                    <div class="col-6">
+                                        <abp-input asp-for="Service.InvoiceNumber" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <abp-select asp-for="Service.ServiceKindId" />
+                                <abp-select asp-for="Service.ServiceId" />
+                                <abp-select asp-for="Service.InvoiceStatuId" />
+                                <abp-select asp-for="Service.ProcessTypeId" />
+                                <abp-select asp-for="Service.ServiceTypeId" />
+                                <abp-select asp-for="Service.VehicleStatuId" />
+                                <abp-select asp-for="Service.InvoiceDescriptionStatuId" />
+                                <abp-select asp-for="Service.RepairedCityId" />
+                                <abp-select asp-for="Service.OperationCodeId" />
+                                <abp-input asp-for="Service.AppointmentStartDate" />
+                                <abp-input asp-for="Service.AppointmentEndDate" />
+                                <abp-select asp-for="Service.AppointmentUserId" />
+                                <abp-input asp-for="Service.WarningDate" />
+                                <abp-input asp-for="Service.Signer" />
+                                <abp-input asp-for="Service.SignerContact" />
+                                <div style="display: flex; align-items: center; justify-content: center;">
+                                    <div class="row">
+                                        <i class="fas fa-file-signature fa-10x"></i>
+                                        <abp-button id="ShowSignature" button-type="Default" text="@L["Signature"].Value"></abp-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">@L["Save"]</button>
+                        </div>
+                    </form>
+                </abp-card-body>
+            </abp-card>
+        </abp-tab>
+        <abp-tab title="@L["ServiceUsedMaterial"].Value">
+            <abp-card>
+                <abp-card-header>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-card-title></abp-card-title>
+                        </abp-column>
+                        <abp-column size-md="_6" class="text-right">
+                            @if (await AuthorizationService
+                            .IsGrantedAsync(AkilliLojistikPermissions.ServiceMaterials.Create))
+                            {
+                                <abp-button id="NewUsedMaterial"
+                                        text="@L["NewUsedMaterial"].Value"
+                                        icon="plus"
+                                        style="float:right"
+                                        button-type="Primary" />
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-card-header>
+                <abp-card-body>
+                    <abp-table striped-rows="true" id="UsedMaterialsTable"></abp-table>
+                </abp-card-body>
+            </abp-card>
+        </abp-tab>
+        <abp-tab title="@L["ServiceSuggestMaterial"].Value">
+            <abp-card>
+                <abp-card-header>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-card-title></abp-card-title>
+                        </abp-column>
+                        <abp-column size-md="_6" class="text-right">
+                            @if (await AuthorizationService
+                            .IsGrantedAsync(AkilliLojistikPermissions.ServiceMaterials.Create))
+                            {
+                                <abp-button id="NewSuggestMaterial"
+                                        text="@L["NewSuggestMaterial"].Value"
+                                        icon="plus"
+                                        style="float:right"
+                                        button-type="Primary" />
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-card-header>
+                <abp-card-body>
+                    <abp-table striped-rows="true" id="SuggestMaterialsTable"></abp-table>
+                </abp-card-body>
+            </abp-card>
+        </abp-tab>
+        <abp-tab title="@L["ServiceOperation"].Value">
+            <abp-card>
+                <abp-card-header>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-card-title></abp-card-title>
+                        </abp-column>
+                        <abp-column size-md="_6" class="text-right">
+                            @if (await AuthorizationService
+                            .IsGrantedAsync(AkilliLojistikPermissions.ServiceOperations.Create))
+                            {
+                                <abp-button id="NewUsedMaterial"
+                                        text="@L["NewOperation"].Value"
+                                        icon="plus"
+                                        style="float:right"
+                                        button-type="Primary" />
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-card-header>
+                <abp-card-body>
+                    <abp-table striped-rows="true" id="OperationsTable"></abp-table>
+                </abp-card-body>
+            </abp-card>
+        </abp-tab>
+        <abp-tab title="@L["ServiceAccessory"].Value">
+            <abp-card>
+                <abp-card-header>
+                    <abp-row>
+                        <abp-column size-md="_6">
+                            <abp-card-title></abp-card-title>
+                        </abp-column>
+                        <abp-column size-md="_6" class="text-right">
+                            @if (await AuthorizationService
+                            .IsGrantedAsync(AkilliLojistikPermissions.ServiceAccessories.Create))
+                            {
+                                <abp-button id="NewAccessory"
+                                        text="@L["NewAccessory"].Value"
+                                        icon="plus"
+                                        style="float:right"
+                                        button-type="Primary" />
+                            }
+                        </abp-column>
+                    </abp-row>
+                </abp-card-header>
+                <abp-card-body>
+                    <abp-table striped-rows="true" id="AccessoriesTable"></abp-table>
+                </abp-card-body>
+            </abp-card>
+        </abp-tab>
+    </abp-tabs>
+</abp-row>
