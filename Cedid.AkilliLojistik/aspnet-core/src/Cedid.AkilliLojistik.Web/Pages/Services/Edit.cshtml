@@ -1,0 +1,18 @@
+﻿@page
+@using Cedid.AkilliLojistik.Localization
+@using Cedid.AkilliLojistik.Web.Pages.Services
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
+@model EditModel
+@inject IStringLocalizer<AkilliLojistikResource> L
+@{
+    Layout = null;
+}
+
+
+
+<abp-dynamic-form abp-model="Service" asp-page="/Services/Edit">
+
+    <abp-form-content />
+
+</abp-dynamic-form>

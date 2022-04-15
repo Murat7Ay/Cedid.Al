@@ -1,0 +1,37 @@
+﻿@page
+@using Cedid.AkilliLojistik.Localization
+@using Cedid.AkilliLojistik.Permissions
+@using Cedid.AkilliLojistik.Web.Pages.Vehicles
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<AkilliLojistikResource> L
+@inject IAuthorizationService AuthorizationService
+@model IndexModel
+@section scripts
+{
+    <abp-script src="/Pages/Vehicles/Index.js" />
+}
+
+<abp-card>
+    <abp-card-header>
+        <abp-row>
+            <abp-column size-md="_6">
+                <abp-card-title>@L["Vehicles"]</abp-card-title>
+            </abp-column>
+            <abp-column size-md="_6" class="text-right">
+                @if (await AuthorizationService
+                  .IsGrantedAsync(AkilliLojistikPermissions.Vehicles.Create))
+                {
+                <abp-button id="NewVehicleButton"
+                    text="@L["NewVehicle"].Value"
+                    icon="plus"
+                    style="float:right"
+                    button-type="Primary" />
+                }
+            </abp-column>
+        </abp-row>
+    </abp-card-header>
+    <abp-card-body>
+        <abp-table striped-rows="true" id="VehiclesTable"></abp-table>
+    </abp-card-body>
+</abp-card>
