@@ -28,5 +28,9 @@ namespace Cedid.AkilliLojistik.Parameters
         public const int CodeMaxLength = 50;
         public const int TextMaxLength = 250;
         public const int SpecMaxLength = 50;
+        public const string StockCode = "STOCKCODE";
+        public const string WareHouseCode = "WAREHOUSECODE";
+        public const string MaterialType = "MATERIALTYPE";
+        public const string Unit = "UNIT";
     }
 }

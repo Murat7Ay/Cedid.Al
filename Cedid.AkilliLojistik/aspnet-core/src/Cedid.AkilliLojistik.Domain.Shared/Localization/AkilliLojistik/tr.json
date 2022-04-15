@@ -20,6 +20,7 @@
     "Text": "Metin",
     "Save": "Kaydet",
     "Description": "Açıklama",
+    "User": "Kullanıcı",
     "SuccessfullyDeleted": "Silme işlemi başarılı.",
     "ParameterDeletionConfirmationMessage": "Parametreyi silmek istediğinize emin misiniz?",
     "VehicleDeletionConfirmationMessage": "'{0}' plaka numaralı aracı silmek istediğinize emin misiniz?",

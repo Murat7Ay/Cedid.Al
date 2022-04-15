@@ -1,15 +1,17 @@
 ﻿$(function () {
     var l = abp.localization.getResource('AkilliLojistik');
-    var createUsedMaterialModal = new abp.ModalManager(abp.appPath + 'Services/CreateUsedMaterialModal');
-    var editUsedMaterialModal = new abp.ModalManager(abp.appPath + 'Services/EditUsedMaterialModal');
-    var createSuggestMaterialModal = new abp.ModalManager(abp.appPath + 'Services/CreateSuggestMaterialModal');
-    var editSuggestMaterialModal = new abp.ModalManager(abp.appPath + 'Services/EditSuggestMaterialModal');
+    var serviceId = $('input#Service_Id').val();
+    var materialModal = new abp.ModalManager({
+        viewUrl: '/Services/MaterialModal',
+        scriptUrl: '/Pages/Services/MaterialModal.js',
+        modalClass: 'MaterialModal'
+    });
     var createOperationModal = new abp.ModalManager(abp.appPath + 'Services/CreateOperationModal');
     var editOperationModal = new abp.ModalManager(abp.appPath + 'Services/EditOperationModal');
     var createAccessoryModal = new abp.ModalManager(abp.appPath + 'Services/CreateAccessoryModal');
     var editAccessoryModal = new abp.ModalManager(abp.appPath + 'Services/EditAccessoryModal');
 
-    var dataTable = $('#UsedMaterialsTable').DataTable(
+    var usedMaterialDataTable = $('#UsedMaterialsTable').DataTable(
         abp.libs.datatables.normalizeConfiguration({
             serverSide: true,
             paging: true,
@@ -27,7 +29,7 @@
                                     text: l('Edit'),
                                     visible: abp.auth.isGranted('AkilliLojistik.ServiceMaterials.Edit'),
                                     action: function (data) {
-                                        editUsedMaterialModal.open({ id: data.record.id });
+                                        materialModal.open({ id: data.record.id, serviceId: serviceId, serviceMaterialType : 1 });
                                     }
                                 },
                                 {
@@ -73,16 +75,13 @@
         })
     );
 
-    createUsedMaterialModal.onResult(function () {
-        dataTable.ajax.reload();
-    });
-    editUsedMaterialModal.onResult(function () {
-        dataTable.ajax.reload();
+    materialModal.onResult(function () {
+        usedMaterialDataTable.ajax.reload();
     });
 
     $('#NewUsedMaterial').click(function (e) {
         e.preventDefault();
-        createUsedMaterialModal.open();
+        materialModal.open({ serviceId: serviceId, serviceMaterialType: 1 });
     });
 
     $('#ServiceList').click(function (e) {
