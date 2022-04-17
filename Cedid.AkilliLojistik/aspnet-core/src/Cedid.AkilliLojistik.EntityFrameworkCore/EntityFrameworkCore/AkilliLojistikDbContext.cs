@@ -154,6 +154,12 @@ public class AkilliLojistikDbContext :
             b.Property(x => x.ServiceId).IsRequired();
             b.HasIndex(x => x.ServiceId);
             b.Property(x => x.Type).IsRequired();
+            b.Property(x => x.Price).HasPrecision(18, 2);
+            b.Property(x => x.Amount).HasPrecision(18, 2);
+            b.Property(x => x.KDVAmount).HasPrecision(18, 2);
+            b.Property(x => x.DiscountAmount).HasPrecision(18, 2);
+            b.Property(x => x.DiscountTwoAmount).HasPrecision(18, 2);
+            b.Property(x => x.NetAmount).HasPrecision(18, 2);
             b.HasIndex(x => new { x.ServiceId, x.Type });
         });
 

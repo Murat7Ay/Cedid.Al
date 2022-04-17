@@ -4,17 +4,19 @@ using Cedid.AkilliLojistik.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Volo.Abp.EntityFrameworkCore;
 
 #nullable disable
 
-namespace Cedid.AkilliLojistik.Migrations
+namespace Cedid.AkilliLojistik.MuratMigration
 {
     [DbContext(typeof(AkilliLojistikDbContext))]
-    partial class AkilliLojistikDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220417211628_floatdecimal")]
+    partial class floatdecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

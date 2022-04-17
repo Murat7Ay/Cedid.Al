@@ -12,20 +12,20 @@ namespace Cedid.AkilliLojistik.ServiceMaterials
         public int StockCodeId { get; set; }
         [ParamaterRef(nameof(StockCodeId), "Text")]
         public string StockCodeText { get; set; }
-        public float Quantity { get; set; }
+        public int Quantity { get; set; }
         public int UnitId { get; set; }
         [ParamaterRef(nameof(UnitId), "Text")]
         public string UnitText { get; set; }
-        public float Price { get; set; }
-        public float Amount { get; set; }
-        public float KDV { get; set; }
-        public float KDVAmount { get; set; }
+        public decimal Price { get; set; }
+        public decimal Amount { get; set; }
+        public int KDV { get; set; }
+        public decimal KDVAmount { get; set; }
         public bool IsKDVIncluded { get; set; }
-        public float Discount { get; set; }
-        public float DiscountAmount { get; set; }
-        public float DiscountTwo { get; set; }
-        public float DiscountTwoAmount { get; set; }
-        public float NetAmount { get; set; }
+        public int Discount { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public int DiscountTwo { get; set; }
+        public decimal DiscountTwoAmount { get; set; }
+        public decimal NetAmount { get; set; }
         public int? WareHouseCodeId { get; set; }
         [ParamaterRef(nameof(WareHouseCodeId), "Text")]
         public string WareHouseCodeText { get; set; }
