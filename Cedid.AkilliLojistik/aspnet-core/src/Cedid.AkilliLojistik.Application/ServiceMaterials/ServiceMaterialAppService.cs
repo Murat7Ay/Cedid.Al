@@ -8,15 +8,19 @@ using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using System.Linq.Dynamic.Core;
 using Volo.Abp.Domain.Repositories;
+using Cedid.AkilliLojistik.Parameters;
 
 namespace Cedid.AkilliLojistik.ServiceMaterials
 {
     public class ServiceMaterialAppService : CrudAppService<ServiceMaterial, ServiceMaterialDto, Guid, GetServiceFilterListDto,
                         CreateUpdateServiceMaterialDto, CreateUpdateServiceMaterialDto>, IServiceMaterialAppService
     {
-        public ServiceMaterialAppService(IRepository<ServiceMaterial, Guid> repository) : base(repository)
+        public ServiceMaterialAppService(IRepository<ServiceMaterial, Guid> repository, IParameterReferance parameterReferance) : base(repository)
         {
+            ParameterReferance = parameterReferance;
         }
+
+        public IParameterReferance ParameterReferance { get; }
 
         public async override Task<PagedResultDto<ServiceMaterialDto>> GetListAsync(GetServiceFilterListDto input)
         {
@@ -42,9 +46,18 @@ namespace Cedid.AkilliLojistik.ServiceMaterials
             var totalCount = input.Filter == null
                 ? await Repository.CountAsync()
                 : await Repository.CountAsync(c => c.Description.Contains(input.Filter));
+
+
+            var mappedResult = ObjectMapper.Map<List<ServiceMaterial>, List<ServiceMaterialDto>>(queryResult);
+
+            foreach (var item in mappedResult)
+            {
+                await ParameterReferance.FillParameterRefs(item);
+            }
+
             return new PagedResultDto<ServiceMaterialDto>(
                totalCount,
-               ObjectMapper.Map<List<ServiceMaterial>, List<ServiceMaterialDto>>(queryResult)
+               mappedResult
            );
         }
 
@@ -52,7 +65,7 @@ namespace Cedid.AkilliLojistik.ServiceMaterials
         {
             if (sortParam.Contains("Text"))
             {
-                sortParam = sortParam.Replace("Text","Id");
+                sortParam = sortParam.Replace("Text", "Id");
             }
             return sortParam;
         }

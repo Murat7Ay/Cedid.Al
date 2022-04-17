@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cedid.AkilliLojistik.Parameters;
+using Cedid.AkilliLojistik.ServiceAccessories;
 using Cedid.AkilliLojistik.ServiceMaterials;
 using Cedid.AkilliLojistik.ServiceOperations;
 using Cedid.AkilliLojistik.Services;
@@ -34,5 +35,8 @@ public class AkilliLojistikWebAutoMapperProfile : Profile
 
         CreateMap<ServiceOperationDto, Pages.Services.OperationModalModel.CreateUpdateOperationViewModel>();
         CreateMap<Pages.Services.OperationModalModel.CreateUpdateOperationViewModel, CreateUpdateServiceOperationDto>();
+
+        CreateMap<ServiceAccessoryDto, Pages.Services.AccessoryModalModel.CreateUpdateAcccessoryViewModel>();
+        CreateMap<Pages.Services.AccessoryModalModel.CreateUpdateAcccessoryViewModel, CreateUpdateServiceAccessoryDto>();
     }
 }

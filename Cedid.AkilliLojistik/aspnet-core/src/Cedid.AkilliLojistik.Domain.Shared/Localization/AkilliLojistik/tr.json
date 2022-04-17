@@ -109,6 +109,7 @@
     "RepairStartDate": "Onarım Başlahgıç Tarihi",
     "RepairEndDate": "Onarım Bitiş Tarihi",
     "TechnicianOneId": "Teknisyen 1",
+    "TechnicianId": "Teknisyen",
     "TechnicianTwoId": "Teknisyen 2",
     "TechnicianThreeId": "Teknisyen 3",
     "TechnicianFourId": "Teknisyen 4",

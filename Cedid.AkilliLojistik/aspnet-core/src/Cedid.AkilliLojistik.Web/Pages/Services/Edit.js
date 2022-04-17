@@ -7,8 +7,7 @@
         modalClass: 'MaterialModal'
     });
     var operationModal = new abp.ModalManager(abp.appPath + 'Services/OperationModal');
-    var createAccessoryModal = new abp.ModalManager(abp.appPath + 'Services/CreateAccessoryModal');
-    var editAccessoryModal = new abp.ModalManager(abp.appPath + 'Services/EditAccessoryModal');
+    var accessoryModal = new abp.ModalManager(abp.appPath + 'Services/AccessoryModal');
     var serviceId = $('#Service_Id').val();
     var usedRequestParams = { serviceId: serviceId, serviceMaterialType: 1 };
     var usedMaterialDataTable = $('#UsedMaterialsTable').DataTable(
@@ -47,7 +46,7 @@
                                                 abp.notify.info(
                                                     l('SuccessfullyDeleted')
                                                 );
-                                                dataTable.ajax.reload();
+                                                usedMaterialDataTable.ajax.reload();
                                             });
                                     }
                                 }
@@ -112,7 +111,7 @@
                                                 abp.notify.info(
                                                     l('SuccessfullyDeleted')
                                                 );
-                                                dataTable.ajax.reload();
+                                                suggestMaterialDataTable.ajax.reload();
                                             });
                                     }
                                 }
@@ -177,7 +176,7 @@
                                                 abp.notify.info(
                                                     l('SuccessfullyDeleted')
                                                 );
-                                                dataTable.ajax.reload();
+                                                operationDataTable.ajax.reload();
                                             });
                                     }
                                 }
@@ -185,8 +184,8 @@
                     }
                 },
                 {
-                    title: l('Technician'),
-                    data: "technician"
+                    title: l('TechnicianId'),
+                    data: "technicianText"
                 },
                 {
                     title: l('OperationDate'),
@@ -197,21 +196,86 @@
                     data: "description"
                 },
                 {
-                    title: l('StatusCode'),
+                    title: l('StatusCodeId'),
                     data: "statusCodeText"
                 }
             ]
         })
     );
 
+    var accessoryRequestParams = { serviceId: serviceId };
+    var accessoryDataTable = $('#AccessoriesTable').DataTable(
+        abp.libs.datatables.normalizeConfiguration({
+            serverSide: true,
+            paging: true,
+            order: [[3, "asc"]],
+            searching: true,
+            scrollX: true,
+            ajax: abp.libs.datatables.createAjax(cedid.akilliLojistik.serviceAccessories.serviceAccessory.getList, accessoryRequestParams),
+            columnDefs: [
+                {
+                    title: l('Actions'),
+                    rowAction: {
+                        items:
+                            [
+                                {
+                                    text: l('Edit'),
+                                    visible: abp.auth.isGranted('AkilliLojistik.ServiceAccessories.Edit'),
+                                    action: function (data) {
+                                        accessoryModal.open({ id: data.record.id, serviceId: serviceId });
+                                    }
+                                },
+                                {
+                                    text: l('Delete'),
+                                    visible: abp.auth.isGranted('AkilliLojistik.ServiceAccessories.Delete'),
+                                    confirmMessage: function (data) {
+                                        return l(
+                                            'ServiceAccessoryDeletionConfirmationMessage',
+                                            data.record.description
+                                        );
+                                    },
+                                    action: function (data) {
+                                        cedid.akilliLojistik.serviceAccessories.serviceAccessory.delete(data.record.id)
+                                            .then(function () {
+                                                abp.notify.info(
+                                                    l('SuccessfullyDeleted')
+                                                );
+                                                accessoryDataTable.ajax.reload();
+                                            });
+                                    }
+                                }
+                            ]
+                    }
+                },
+                {
+                    title: l('AccessoryId'),
+                    data: "accessoryText"
+                },
+                {
+                    title: l('SerialNumber'),
+                    data: "serialNumber"
+                },
+                {
+                    title: l('CreationTime'),
+                    data: "creationTime"
+                }
+            ]
+        })
+    );
+
+
+    
+
     materialModal.onResult(function () {
         usedMaterialDataTable.ajax.reload();
     });
 
     operationModal.onResult(function () {
-        usedMaterialDataTable.ajax.reload();
+        operationDataTable.ajax.reload();
     });
-    
+    accessoryModal.onResult(function () {
+        accessoryDataTable.ajax.reload();
+    });
 
     $('#NewUsedMaterial').click(function (e) {
         e.preventDefault();
@@ -232,5 +296,10 @@
         operationModal.open({ serviceId: serviceId });
     });
 
+    $('#NewAccessory').click(function (e) {
+        e.preventDefault();
+        accessoryModal.open({ serviceId: serviceId });
+    });
+    
 
 });

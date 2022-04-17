@@ -78,7 +78,7 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
             [DataType(DataType.Time)]
             public DateTime EndDate { get; set; }
             [SelectItems(nameof(Users))]
-            public Guid Technician { get; set; }
+            public Guid TechnicianId { get; set; }
             [SelectItems(nameof(StatuCodes))]
             public int StatusCodeId { get; set; }
             [TextArea(Rows = 4)]

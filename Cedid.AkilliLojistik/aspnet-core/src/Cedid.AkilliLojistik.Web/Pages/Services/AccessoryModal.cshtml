@@ -3,13 +3,13 @@
 @using Cedid.AkilliLojistik.Web.Pages.Services
 @using Microsoft.Extensions.Localization
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
-@model OperationModalModel
+@model AccessoryModalModel
 @inject IStringLocalizer<AkilliLojistikResource> L
 @{
     Layout = null;
 }
 
-<abp-dynamic-form abp-model="Operation" asp-page="/Services/OperationModal">
+<abp-dynamic-form abp-model="Accessory" asp-page="/Services/AccessoryModal">
     <abp-modal scrollable="true">
         <abp-modal-header title="@L["ServiceAccessory"]"></abp-modal-header>
         <abp-modal-body>
