@@ -53,6 +53,7 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
                 Material = new CreateUpdateMaterialViewModel();
                 Material.Type = ServiceMaterialType;
             }
+            Material.ServiceId = ServiceId;
             var stockCodeParameterDtos = await _parameterAppService.GetParameterItemsByCode(ParameterConsts.StockCode);
             StockCodes = Utils.GetSelectListItems(stockCodeParameterDtos, false);
             var unitParameterDtos = await _parameterAppService.GetParameterItemsByCode(ParameterConsts.Unit);
@@ -67,13 +68,13 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Id.HasValue)
+            if (Material.Id == default)
             {
-                await _serviceMaterialAppService.UpdateAsync(Material.Id, ObjectMapper.Map<CreateUpdateMaterialViewModel, CreateUpdateServiceMaterialDto>(Material));
+                await _serviceMaterialAppService.CreateAsync(ObjectMapper.Map<CreateUpdateMaterialViewModel, CreateUpdateServiceMaterialDto>(Material));
             }
             else
             {
-                await _serviceMaterialAppService.CreateAsync(ObjectMapper.Map<CreateUpdateMaterialViewModel, CreateUpdateServiceMaterialDto>(Material));
+                await _serviceMaterialAppService.UpdateAsync(Material.Id, ObjectMapper.Map<CreateUpdateMaterialViewModel, CreateUpdateServiceMaterialDto>(Material));
             }
             return NoContent();
         }
@@ -87,7 +88,7 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
             [HiddenInput]
             public ServiceMaterialType Type { get; set; }
             [SelectItems(nameof(StockCodes))]
-            public string StockCode { get; set; }
+            public int StockCodeId { get; set; }
             [SelectItems(nameof(Units))]
             public int Unit { get; set; }
             public float Quantity { get; set; }
@@ -101,12 +102,10 @@ namespace Cedid.AkilliLojistik.Web.Pages.Services
             public float DiscountAmount { get; set; }
             [Range(0, 100)]
             public float DiscountTwo { get; set; }
-            [DisabledInput]
             public float DiscountTwoAmount { get; set; }
-            [DisabledInput]
             public float NetAmount { get; set; }
             [SelectItems(nameof(WareHouseCodes))]
-            public int? WareHouseCode { get; set; }
+            public int? WareHouseCodeId { get; set; }
             [TextArea(Rows = 4)]
             [MaxLength(ServiceMaterialConsts.DescriptionMaxLength)]
             public string Description { get; set; }

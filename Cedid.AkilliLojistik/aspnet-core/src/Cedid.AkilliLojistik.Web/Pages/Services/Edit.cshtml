@@ -118,6 +118,7 @@
                                 <abp-input asp-for="Service.WarningDate" />
                                 <abp-input asp-for="Service.Signer" />
                                 <abp-input asp-for="Service.SignerContact" />
+                                <abp-input asp-for="Service.Id" />
                                 <div style="display: flex; align-items: center; justify-content: center;">
                                     <div class="row">
                                         <i class="fas fa-file-signature fa-10x"></i>
@@ -194,7 +195,7 @@
                             @if (await AuthorizationService
                             .IsGrantedAsync(AkilliLojistikPermissions.ServiceOperations.Create))
                             {
-                                <abp-button id="NewUsedMaterial"
+                                <abp-button id="NewOperation"
                                         text="@L["NewOperation"].Value"
                                         icon="plus"
                                         style="float:right"

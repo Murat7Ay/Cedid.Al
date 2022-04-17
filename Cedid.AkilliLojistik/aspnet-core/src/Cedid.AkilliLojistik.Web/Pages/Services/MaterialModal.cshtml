@@ -5,13 +5,61 @@
 @using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Modal
 @model MaterialModalModel
 @inject IStringLocalizer<AkilliLojistikResource> L
-@{ Layout = null; }
-<abp-dynamic-form abp-model="Material" asp-page="/Services/MaterialModal">
-    <abp-modal>
-        <abp-modal-header title="@L["Update"].Value"></abp-modal-header>
+@{
+    Layout = null;
+}
+
+<form class="row gy-2 gx-3 align-items-center mt-2" asp-page="/Services/MaterialModal">
+    <abp-modal size="ExtraLarge">
+        <abp-modal-header title="@(Model.Material.Type == Cedid.AkilliLojistik.ServiceMaterials.ServiceMaterialType.Used ? @L["ServiceUsedMaterial"].Value : @L["ServiceSuggestMaterial"].Value)"></abp-modal-header>
         <abp-modal-body>
-            <abp-form-content />
+            <abp-input asp-for="Material.Type" />
+            <abp-input asp-for="Material.ServiceId" />
+            <abp-input asp-for="Material.Id" />
+            <div class="row">
+                <div class="col-12">
+                    <abp-select asp-for="Material.StockCodeId" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <abp-input asp-for="Material.Quantity" />
+                        <abp-input asp-for="Material.Price" />
+                        <abp-input asp-for="Material.Discount" />
+                        <abp-input asp-for="Material.DiscountAmount" />
+                    </div>
+                    <div class="col-6">
+                        <abp-select asp-for="Material.Unit" />
+                        <abp-input asp-for="Material.Amount" />
+                        <abp-input asp-for="Material.DiscountTwo" />
+                        <abp-input asp-for="Material.DiscountTwoAmount" />
+                        <abp-input asp-for="Material.NetAmount" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2" style="display: flex; align-items: center; justify-content: center;">
+                        <abp-input asp-for="Material.IsKDVIncluded" />
+                    </div>
+                    <div class="col-5">
+                        <abp-input asp-for="Material.KDV" />
+                    </div>
+                    <div class="col-5">
+                        <abp-input asp-for="Material.KDVAmount" />
+                    </div>
+                </div>
+                <div class="row">
+                    <abp-input asp-for="Material.Description" />
+                    <abp-select asp-for="Material.MaterialTypeId" />
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <abp-select asp-for="Material.WareHouseCodeId" />
+                    </div>
+                    <div class="col-6">
+                        <abp-select asp-for="Material.User" />
+                    </div>
+                </div>
+            </div>
         </abp-modal-body>
         <abp-modal-footer buttons="@(AbpModalButtons.Cancel|AbpModalButtons.Save)"></abp-modal-footer>
     </abp-modal>
-</abp-dynamic-form>
+</form>

@@ -32,5 +32,6 @@ namespace Cedid.AkilliLojistik.Parameters
         public const string WareHouseCode = "WAREHOUSECODE";
         public const string MaterialType = "MATERIALTYPE";
         public const string Unit = "UNIT";
+        public const string StatuCode = "STATUCODE";
     }
 }

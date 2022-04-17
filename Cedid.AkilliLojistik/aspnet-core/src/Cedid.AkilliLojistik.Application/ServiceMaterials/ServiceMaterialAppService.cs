@@ -24,8 +24,13 @@ namespace Cedid.AkilliLojistik.ServiceMaterials
             {
                 input.Sorting = nameof(ServiceMaterial.CreationTime);
             }
+            else
+            {
+                input.Sorting = NormalizeSorting(input.Sorting);
+            }
+
             var queryable = await Repository.GetQueryableAsync();
-            queryable = queryable.Where(x => x.ServiceId == input.ServiceId && x.MaterialTypeId == (int)input.ServiceMaterialType)
+            queryable = queryable.Where(x => x.ServiceId == input.ServiceId && x.Type == input.ServiceMaterialType)
                 .WhereIf(
                     !input.Filter.IsNullOrWhiteSpace(),
                     c => c.Description.Contains(input.Filter)
@@ -41,6 +46,15 @@ namespace Cedid.AkilliLojistik.ServiceMaterials
                totalCount,
                ObjectMapper.Map<List<ServiceMaterial>, List<ServiceMaterialDto>>(queryResult)
            );
+        }
+
+        private string NormalizeSorting(string sortParam)
+        {
+            if (sortParam.Contains("Text"))
+            {
+                sortParam = sortParam.Replace("Text","Id");
+            }
+            return sortParam;
         }
     }
 }

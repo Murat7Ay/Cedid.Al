@@ -24,6 +24,10 @@ namespace Cedid.AkilliLojistik.ServiceOperations
             {
                 input.Sorting = nameof(ServiceOperation.CreationTime);
             }
+            else
+            {
+                input.Sorting = NormalizeSorting(input.Sorting);
+            }
             var queryable = await Repository.GetQueryableAsync();
             queryable = queryable.Where(x => x.ServiceId == input.ServiceId)
                 .WhereIf(
@@ -41,6 +45,15 @@ namespace Cedid.AkilliLojistik.ServiceOperations
                totalCount,
                ObjectMapper.Map<List<ServiceOperation>, List<ServiceOperationDto>>(queryResult)
            );
+        }
+
+        private string NormalizeSorting(string sortParam)
+        {
+            if (sortParam.Contains("Text"))
+            {
+                sortParam = sortParam.Replace("Text", "Id");
+            }
+            return sortParam;
         }
     }
 }
